@@ -1,0 +1,28 @@
+{
+  "properties": {
+    "description": "Demo pipeline created from Git",
+    "activities": [
+      {
+        "name": "Wait_Step_1",
+        "type": "Wait",
+        "dependsOn": [],
+        "typeProperties": {
+          "waitTimeInSeconds": 10
+        }
+      },
+      {
+        "name": "Wait_Step_2",
+        "type": "Wait",
+        "dependsOn": [
+          {
+            "activity": "Wait_Step_1",
+            "dependencyConditions": [ "Succeeded" ]
+          }
+        ],
+        "typeProperties": {
+          "waitTimeInSeconds": 5
+        }
+      }
+    ]
+  }
+}
