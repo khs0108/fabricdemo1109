@@ -1,0 +1,22 @@
+{
+  "queryset": {
+    "version": "1.0.0",
+    "dataSources": [
+      {
+        "id": "35d44e51-0849-4d37-b27e-18885cc23dec",
+        "clusterUri": "https://trd-h1jx5kfbmwr0ew4ad7.z8.kusto.fabric.microsoft.com",
+        "type": "Fabric",
+        "databaseItemId": "514e45a3-aac8-4cb6-9cba-68b7add9f7b3"
+      }
+    ],
+    "tabs": [
+      {
+        "id": "6d5a69d4-913c-4dc5-984c-115176dfc9f8",
+        "content": "union\n    (orders_current()      | summarize rows = count() | extend tbl = \"orders\"),\n    (order_items_current() | summarize rows = count() | extend tbl = \"order_items\"),\n    (customers_current()   | summarize rows = count() | extend tbl = \"customers\"),\n    (products_current()    | summarize rows = count() | extend tbl = \"products\")\n| project tbl, rows",
+        "title": "Tab",
+        "dataSourceId": "35d44e51-0849-4d37-b27e-18885cc23dec"
+      }
+    ],
+    "querysetType": "Embedded"
+  }
+}

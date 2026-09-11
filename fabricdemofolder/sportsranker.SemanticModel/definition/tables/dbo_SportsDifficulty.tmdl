@@ -1,0 +1,188 @@
+table dbo_SportsDifficulty
+	lineageTag: 33f94a3c-afe7-4b51-bf57-3584421b5717
+	sourceLineageTag: [dbo].[dbo_SportsDifficulty]
+
+	column SportID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 9d8b44c6-4b9c-4c49-8837-af6c1929e7c6
+		sourceLineageTag: SportID
+		summarizeBy: count
+		sourceColumn: SportID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SportName
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 1ed5496e-a071-43c7-94fa-58121209fe5b
+		sourceLineageTag: SportName
+		summarizeBy: none
+		sourceColumn: SportName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Agility
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 298d77e9-d96b-4c0e-8b8d-9148c498b29e
+		sourceLineageTag: Agility
+		summarizeBy: sum
+		sourceColumn: Agility
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column AnalyticAptitude
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 4f68aedd-9b25-4850-9159-8f01234a1f6c
+		sourceLineageTag: AnalyticAptitude
+		summarizeBy: sum
+		sourceColumn: AnalyticAptitude
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Durability
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 2ccb8ac2-407e-4f93-8b1b-0ddfd8ee8b83
+		sourceLineageTag: Durability
+		summarizeBy: sum
+		sourceColumn: Durability
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Endurance
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 8cd406dc-5adc-41d2-8195-fbe592230a01
+		sourceLineageTag: Endurance
+		summarizeBy: sum
+		sourceColumn: Endurance
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Flexibility
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: ac38cb8b-d729-42e4-a24e-9705beb9c9b6
+		sourceLineageTag: Flexibility
+		summarizeBy: sum
+		sourceColumn: Flexibility
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column HandEyeCoordination
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 4b0e4c5a-afde-41b3-b254-bae4403cceba
+		sourceLineageTag: HandEyeCoordination
+		summarizeBy: sum
+		sourceColumn: HandEyeCoordination
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Nerve
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 4e06b5b3-073a-4cdf-863c-5c6d9ac9f412
+		sourceLineageTag: Nerve
+		summarizeBy: sum
+		sourceColumn: Nerve
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Power
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 595693a3-3aff-4835-9664-dc40fd4c1233
+		sourceLineageTag: Power
+		summarizeBy: sum
+		sourceColumn: Power
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Speed
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 158b25b8-527b-4e45-a2ed-8ee48bb66701
+		sourceLineageTag: Speed
+		summarizeBy: sum
+		sourceColumn: Speed
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column Strength
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 23312ba0-99d1-4da6-a9ca-5f46afb68f0f
+		sourceLineageTag: Strength
+		summarizeBy: sum
+		sourceColumn: Strength
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column OverallDifficulty
+		dataType: decimal
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 609eff85-fd0a-448d-a00e-e845c926c04c
+		sourceLineageTag: OverallDifficulty
+		summarizeBy: sum
+		sourceColumn: OverallDifficulty
+
+		changedProperty = FormatString
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition dbo_SportsDifficulty = entity
+		mode: directLake
+		source
+			entityName: dbo_SportsDifficulty
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

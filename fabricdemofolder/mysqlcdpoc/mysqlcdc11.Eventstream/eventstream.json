@@ -1,0 +1,406 @@
+{
+  "sources": [
+    {
+      "id": "a7227fcf-83b8-44a2-97c5-bb5c458f211c",
+      "name": "mysql-db",
+      "type": "MySQLCDC",
+      "properties": {
+        "dataConnectionId": "2eac1562-414e-46a0-8c4f-a995d7ca9c35",
+        "tableName": "salesdb\\.(products|customers|orders|order_items|stock_movements)",
+        "decimalHandlingMode": "String",
+        "snapshotMode": "Initial",
+        "serverId": 1000,
+        "port": 3306
+      }
+    }
+  ],
+  "destinations": [
+    {
+      "id": "85ffc0f7-98ae-4d88-b1ca-1bf1966e1a7f",
+      "name": "Eventhouse",
+      "type": "Eventhouse",
+      "properties": {
+        "dataIngestionMode": "ProcessedIngestion",
+        "workspaceId": "00000000-0000-0000-0000-000000000000",
+        "itemId": "add9f7b3-68b7-9cba-4cb6-aac8514e45a3",
+        "databaseName": "ehmsqlcdc",
+        "tableName": "cdc_raw",
+        "inputSerialization": {
+          "type": "Json",
+          "properties": {
+            "encoding": "UTF8"
+          }
+        }
+      },
+      "inputNodes": [
+        {
+          "name": "mysqlcdc11-stream"
+        }
+      ],
+      "inputSchemas": [
+        {
+          "name": "mysqlcdc11-stream",
+          "schema": {
+            "columns": [
+              {
+                "name": "schema",
+                "type": "Record",
+                "fields": [
+                  {
+                    "name": "type",
+                    "type": "Nvarchar(max)",
+                    "fields": null,
+                    "items": null
+                  },
+                  {
+                    "name": "fields",
+                    "type": "Array",
+                    "fields": null,
+                    "items": {
+                      "name": null,
+                      "type": "Record",
+                      "fields": [
+                        {
+                          "name": "type",
+                          "type": "Nvarchar(max)",
+                          "fields": null,
+                          "items": null
+                        },
+                        {
+                          "name": "optional",
+                          "type": "Nvarchar(max)",
+                          "fields": null,
+                          "items": null
+                        },
+                        {
+                          "name": "field",
+                          "type": "Nvarchar(max)",
+                          "fields": null,
+                          "items": null
+                        },
+                        {
+                          "name": "fields",
+                          "type": "Array",
+                          "fields": null,
+                          "items": {
+                            "name": null,
+                            "type": "Record",
+                            "fields": [
+                              {
+                                "name": "type",
+                                "type": "Nvarchar(max)",
+                                "fields": null,
+                                "items": null
+                              },
+                              {
+                                "name": "optional",
+                                "type": "Nvarchar(max)",
+                                "fields": null,
+                                "items": null
+                              },
+                              {
+                                "name": "field",
+                                "type": "Nvarchar(max)",
+                                "fields": null,
+                                "items": null
+                              }
+                            ],
+                            "items": null
+                          }
+                        },
+                        {
+                          "name": "name",
+                          "type": "Nvarchar(max)",
+                          "fields": null,
+                          "items": null
+                        },
+                        {
+                          "name": "version",
+                          "type": "BigInt",
+                          "fields": null,
+                          "items": null
+                        }
+                      ],
+                      "items": null
+                    }
+                  },
+                  {
+                    "name": "optional",
+                    "type": "Nvarchar(max)",
+                    "fields": null,
+                    "items": null
+                  },
+                  {
+                    "name": "name",
+                    "type": "Nvarchar(max)",
+                    "fields": null,
+                    "items": null
+                  },
+                  {
+                    "name": "version",
+                    "type": "BigInt",
+                    "fields": null,
+                    "items": null
+                  }
+                ],
+                "items": null
+              },
+              {
+                "name": "payload",
+                "type": "Record",
+                "fields": [
+                  {
+                    "name": "before",
+                    "type": "Record",
+                    "fields": [],
+                    "items": null
+                  },
+                  {
+                    "name": "after",
+                    "type": "Record",
+                    "fields": [
+                      {
+                        "name": "customer_id",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "first_name",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "last_name",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "email",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "phone",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "segment",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "date_of_birth",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "loyalty_points",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "rating",
+                        "type": "Float",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "is_active",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "preferences",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "created_at",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "updated_at",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      }
+                    ],
+                    "items": null
+                  },
+                  {
+                    "name": "source",
+                    "type": "Record",
+                    "fields": [
+                      {
+                        "name": "version",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "connector",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "name",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "ts_ms",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "snapshot",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "db",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "sequence",
+                        "type": "Record",
+                        "fields": [],
+                        "items": null
+                      },
+                      {
+                        "name": "ts_us",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "ts_ns",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "table",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "server_id",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "gtid",
+                        "type": "Record",
+                        "fields": [],
+                        "items": null
+                      },
+                      {
+                        "name": "file",
+                        "type": "Nvarchar(max)",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "pos",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "row",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "thread",
+                        "type": "BigInt",
+                        "fields": null,
+                        "items": null
+                      },
+                      {
+                        "name": "query",
+                        "type": "Record",
+                        "fields": [],
+                        "items": null
+                      }
+                    ],
+                    "items": null
+                  },
+                  {
+                    "name": "transaction",
+                    "type": "Record",
+                    "fields": [],
+                    "items": null
+                  },
+                  {
+                    "name": "op",
+                    "type": "Nvarchar(max)",
+                    "fields": null,
+                    "items": null
+                  },
+                  {
+                    "name": "ts_ms",
+                    "type": "BigInt",
+                    "fields": null,
+                    "items": null
+                  },
+                  {
+                    "name": "ts_us",
+                    "type": "BigInt",
+                    "fields": null,
+                    "items": null
+                  },
+                  {
+                    "name": "ts_ns",
+                    "type": "BigInt",
+                    "fields": null,
+                    "items": null
+                  }
+                ],
+                "items": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "streams": [
+    {
+      "id": "ea6c6de3-3c21-4fea-8662-eb6ae931639f",
+      "name": "mysqlcdc11-stream",
+      "type": "DefaultStream",
+      "properties": {},
+      "inputNodes": [
+        {
+          "name": "mysql-db"
+        }
+      ]
+    }
+  ],
+  "operators": [],
+  "compatibilityLevel": "1.1"
+}

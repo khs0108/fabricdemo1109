@@ -1,0 +1,500 @@
+{
+  "properties": {
+    "activities": [
+      {
+        "type": "ForEach",
+        "typeProperties": {
+          "items": {
+            "value": "@pipeline().parameters.cw_items_th4",
+            "type": "Expression"
+          },
+          "activities": [
+            {
+              "type": "Copy",
+              "typeProperties": {
+                "source": {
+                  "type": "AzureSqlSource",
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "type": "AzureSqlTable",
+                    "typeProperties": {
+                      "schema": "dbo",
+                      "table": {
+                        "value": "@item().source.table",
+                        "type": "Expression"
+                      },
+                      "database": "tstdb101"
+                    },
+                    "schema": [],
+                    "externalReferences": {
+                      "connection": "c1743ddb-be93-43a4-9b7a-108649754ebd"
+                    },
+                    "annotations": []
+                  }
+                },
+                "sink": {
+                  "type": "LakehouseTableSink",
+                  "tableActionOption": "OverwriteSchema",
+                  "partitionOption": "None",
+                  "datasetSettings": {
+                    "type": "LakehouseTable",
+                    "typeProperties": {
+                      "table": {
+                        "value": "@item().destination.table",
+                        "type": "Expression"
+                      }
+                    },
+                    "schema": [],
+                    "linkedService": {
+                      "name": "workspacelakeh1",
+                      "properties": {
+                        "type": "Lakehouse",
+                        "typeProperties": {
+                          "artifactId": "1ddcd6f7-ac97-9172-4720-2f9e9aaadc95",
+                          "workspaceId": "00000000-0000-0000-0000-000000000000",
+                          "rootFolder": "Tables"
+                        },
+                        "annotations": []
+                      }
+                    },
+                    "annotations": []
+                  }
+                },
+                "translator": {
+                  "value": "@item().copyActivity.translator",
+                  "type": "Expression"
+                },
+                "enableStaging": false
+              },
+              "policy": {
+                "timeout": "0.12:00:00",
+                "retry": 0,
+                "retryIntervalInSeconds": 30,
+                "secureInput": false,
+                "secureOutput": false
+              },
+              "name": "Copy_th4",
+              "dependsOn": []
+            }
+          ]
+        },
+        "name": "ForEach_th4",
+        "dependsOn": []
+      }
+    ],
+    "parameters": {
+      "cw_items_th4": {
+        "type": "Array",
+        "defaultValue": [
+          {
+            "source": {
+              "table": "Customers"
+            },
+            "destination": {
+              "table": "dbo_Customers"
+            },
+            "copyActivity": {
+              "translator": {
+                "type": "TabularTranslator",
+                "mappings": [
+                  {
+                    "source": {
+                      "name": "CustomerID",
+                      "type": "Int32",
+                      "physicalType": "int"
+                    },
+                    "sink": {
+                      "name": "CustomerID",
+                      "physicalType": "integer"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "FirstName",
+                      "type": "String",
+                      "physicalType": "varchar",
+                      "length": "50"
+                    },
+                    "sink": {
+                      "name": "FirstName",
+                      "physicalType": "string"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "LastName",
+                      "type": "String",
+                      "physicalType": "varchar",
+                      "length": "50"
+                    },
+                    "sink": {
+                      "name": "LastName",
+                      "physicalType": "string"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Email",
+                      "type": "String",
+                      "physicalType": "varchar",
+                      "length": "100"
+                    },
+                    "sink": {
+                      "name": "Email",
+                      "physicalType": "string"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Phone",
+                      "type": "String",
+                      "physicalType": "varchar",
+                      "length": "15"
+                    },
+                    "sink": {
+                      "name": "Phone",
+                      "physicalType": "string"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "City",
+                      "type": "String",
+                      "physicalType": "varchar",
+                      "length": "50"
+                    },
+                    "sink": {
+                      "name": "City",
+                      "physicalType": "string"
+                    }
+                  }
+                ],
+                "typeConversion": true,
+                "typeConversionSettings": {
+                  "allowDataTruncation": true,
+                  "treatBooleanAsNumber": false
+                }
+              }
+            }
+          },
+          {
+            "source": {
+              "table": "Customers1"
+            },
+            "destination": {
+              "table": "dbo_Customers1"
+            },
+            "copyActivity": {
+              "translator": {
+                "type": "TabularTranslator",
+                "mappings": [
+                  {
+                    "source": {
+                      "name": "CustomerID",
+                      "type": "Int32",
+                      "physicalType": "int"
+                    },
+                    "sink": {
+                      "name": "CustomerID",
+                      "physicalType": "integer"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "CustomerName",
+                      "type": "String",
+                      "physicalType": "varchar",
+                      "length": "100"
+                    },
+                    "sink": {
+                      "name": "CustomerName",
+                      "physicalType": "string"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "CustomerPhone",
+                      "type": "String",
+                      "physicalType": "varchar",
+                      "length": "15"
+                    },
+                    "sink": {
+                      "name": "CustomerPhone",
+                      "physicalType": "string"
+                    }
+                  }
+                ],
+                "typeConversion": true,
+                "typeConversionSettings": {
+                  "allowDataTruncation": true,
+                  "treatBooleanAsNumber": false
+                }
+              }
+            }
+          },
+          {
+            "source": {
+              "table": "Orders1"
+            },
+            "destination": {
+              "table": "dbo_Orders1"
+            },
+            "copyActivity": {
+              "translator": {
+                "type": "TabularTranslator",
+                "mappings": [
+                  {
+                    "source": {
+                      "name": "OrderID",
+                      "type": "Int32",
+                      "physicalType": "int"
+                    },
+                    "sink": {
+                      "name": "OrderID",
+                      "physicalType": "integer"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "CustomerID",
+                      "type": "Int32",
+                      "physicalType": "int"
+                    },
+                    "sink": {
+                      "name": "CustomerID",
+                      "physicalType": "integer"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "OrderDate",
+                      "type": "DateTime",
+                      "physicalType": "date"
+                    },
+                    "sink": {
+                      "name": "OrderDate",
+                      "physicalType": "timestamp"
+                    }
+                  }
+                ],
+                "typeConversion": true,
+                "typeConversionSettings": {
+                  "allowDataTruncation": true,
+                  "treatBooleanAsNumber": false
+                }
+              }
+            }
+          },
+          {
+            "source": {
+              "table": "SportsDifficulty"
+            },
+            "destination": {
+              "table": "dbo_SportsDifficulty"
+            },
+            "copyActivity": {
+              "translator": {
+                "type": "TabularTranslator",
+                "mappings": [
+                  {
+                    "source": {
+                      "name": "SportID",
+                      "type": "Int32",
+                      "physicalType": "int"
+                    },
+                    "sink": {
+                      "name": "SportID",
+                      "physicalType": "integer"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "SportName",
+                      "type": "String",
+                      "physicalType": "varchar",
+                      "length": "100"
+                    },
+                    "sink": {
+                      "name": "SportName",
+                      "physicalType": "string"
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Agility",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "Agility",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "AnalyticAptitude",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "AnalyticAptitude",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Durability",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "Durability",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Endurance",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "Endurance",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Flexibility",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "Flexibility",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "HandEyeCoordination",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "HandEyeCoordination",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Nerve",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "Nerve",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Power",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "Power",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Speed",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "Speed",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "Strength",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "Strength",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  },
+                  {
+                    "source": {
+                      "name": "OverallDifficulty",
+                      "type": "Decimal",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    },
+                    "sink": {
+                      "name": "OverallDifficulty",
+                      "physicalType": "decimal",
+                      "scale": 2,
+                      "precision": 5
+                    }
+                  }
+                ],
+                "typeConversion": true,
+                "typeConversionSettings": {
+                  "allowDataTruncation": true,
+                  "treatBooleanAsNumber": false
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  }
+}

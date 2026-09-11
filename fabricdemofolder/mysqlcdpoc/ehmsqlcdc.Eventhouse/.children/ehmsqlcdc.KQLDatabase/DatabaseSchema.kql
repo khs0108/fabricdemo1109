@@ -1,0 +1,114 @@
+// KQL script
+// Use management commands in this script to configure your database items, such as tables, functions, materialized views, and more.
+
+
+.create-merge table cdc_raw (schema:dynamic, payload:dynamic) 
+.create-merge table cdc_changes (table_name:string, op:string, pk:string, seq:long, is_snapshot:bool, data:dynamic, before_image:dynamic, source_ts:datetime, connector_ts:datetime, enqueued_ts:datetime, binlog_file:string, binlog_pos:long, binlog_row:long, gtid:string) 
+.create-or-alter function with (folder = "cdc", docstring = "Normalize raw Debezium MySQL events", skipvalidation = "true") fn_cdc_normalize(T:(*)) {
+    T
+    | extend payload_col = todynamic(column_ifexists("payload", dynamic(null)))
+    | extend env = iff(isnotnull(payload_col), payload_col,
+                       bag_pack("op",     column_ifexists("op", ""),
+                                "before", todynamic(column_ifexists("before", dynamic(null))),
+                                "after",  todynamic(column_ifexists("after", dynamic(null))),
+                                "source", todynamic(column_ifexists("source", dynamic(null))),
+                                "ts_ms",  column_ifexists("ts_ms", long(null))))
+    | extend op = tostring(env.op), src = env.source
+    | where isnotempty(op)                                   // drops tombstones
+    | extend table_name = tostring(src.table)
+    | extend data = iff(op == "d", env.before, env.after)
+    | extend pk = case(
+          table_name == "products",    tostring(data.product_id),
+          table_name == "customers",   tostring(data.customer_id),
+          table_name == "orders",      tostring(data.order_id),
+          table_name == "order_items", strcat(tostring(data.order_id), "|", tostring(data.line_no)),
+          "")                                                // stock_movements has no key
+    | extend binlog_file = tostring(src.file),
+             binlog_pos  = tolong(src.pos),
+             binlog_row  = coalesce(tolong(src.row), 0)
+    | extend file_num = tolong(extract(@"\.(\d+)$", 1, binlog_file))
+    // Ordering key: binlog file, then position, then row. Snapshot rows sort before live changes.
+    | extend seq = file_num * 10000000000000 + binlog_pos * 1000 + iff(op == "r", 0, binlog_row + 1)
+    | project table_name, op, pk, seq,
+              is_snapshot  = op == "r",
+              data,
+              before_image = env.before,
+              source_ts    = unixtime_milliseconds_todatetime(tolong(src.ts_ms)),
+              connector_ts = unixtime_milliseconds_todatetime(tolong(env.ts_ms)),
+              enqueued_ts  = todatetime(column_ifexists("EventEnqueuedUtcTime", datetime(null))),
+              binlog_file, binlog_pos, binlog_row,
+              gtid = tostring(src.gtid)
+}
+.create-or-alter function with (folder = "current", skipvalidation = "true") orders_current() {
+    mv_orders_latest
+    | where op != "d"
+    | project order_id      = tolong(data.order_id),
+              customer_id   = tolong(data.customer_id),
+              order_ts      = unixtime_microseconds_todatetime(tolong(data.order_ts)),
+              status        = tostring(data.status),
+              channel       = tostring(data.channel),
+              currency      = tostring(data.currency),
+              total_amount  = todecimal(tostring(data.total_amount)),
+              external_ref  = tostring(data.external_ref),
+              shipping_date = datetime_add("day", toint(data.shipping_date), datetime(1970-01-01)),
+              notes         = tostring(data.notes),
+              updated_at    = todatetime(tostring(data.updated_at)),
+              _last_op = op, _last_change_ts = source_ts
+}
+.create-or-alter function with (folder = "current", skipvalidation = "true") order_items_current() {
+    mv_order_items_latest
+    | where op != "d"
+    | project order_id     = tolong(data.order_id),
+              line_no      = toint(data.line_no),
+              product_id   = tolong(data.product_id),
+              quantity     = toint(data.quantity),
+              unit_price   = todecimal(tostring(data.unit_price)),
+              discount_pct = todecimal(tostring(data.discount_pct)),
+              _last_op = op, _last_change_ts = source_ts
+}
+.create-or-alter function with (folder = "current", skipvalidation = "true") customers_current() {
+    mv_customers_latest
+    | where op != "d"
+    | project customer_id    = tolong(data.customer_id),
+              first_name     = tostring(data.first_name),
+              last_name      = tostring(data.last_name),
+              email          = tostring(data.email),
+              phone          = tostring(data.phone),
+              segment        = tostring(data.segment),
+              date_of_birth  = datetime_add("day", toint(data.date_of_birth), datetime(1970-01-01)),
+              loyalty_points = tolong(data.loyalty_points),
+              rating         = toreal(data.rating),
+              is_active      = tostring(data.is_active) in ("true", "1"),
+              preferences    = todynamic(tostring(data.preferences)),
+              created_at     = unixtime_milliseconds_todatetime(tolong(data.created_at)),
+              updated_at     = todatetime(tostring(data.updated_at)),
+              _last_op = op, _last_change_ts = source_ts
+}
+.create-or-alter function with (folder = "current", skipvalidation = "true") products_current() {
+    mv_products_latest
+    | where op != "d"
+    | project product_id      = tolong(data.product_id),
+              sku             = tostring(data.sku),
+              product_name    = tostring(data.product_name),
+              category        = tostring(data.category),
+              price           = todecimal(tostring(data.price)),
+              weight_kg       = todecimal(tostring(data.weight_kg)),
+              description     = tostring(data.description),
+              is_discontinued = tostring(data.is_discontinued) in ("true", "1"),
+              created_at      = unixtime_milliseconds_todatetime(tolong(data.created_at)),
+              updated_at      = todatetime(tostring(data.updated_at)),
+              _last_op = op, _last_change_ts = source_ts
+}
+.create-or-alter materialized-view  mv_orders_latest on table cdc_changes { cdc_changes
+    | where table_name == "orders"
+    | summarize arg_max(seq, *) by pk }
+.create-or-alter materialized-view  mv_order_items_latest on table cdc_changes { cdc_changes
+    | where table_name == "order_items"
+    | summarize arg_max(seq, *) by pk }
+.create-or-alter materialized-view  mv_customers_latest on table cdc_changes { cdc_changes
+    | where table_name == "customers"
+    | summarize arg_max(seq, *) by pk }
+.create-or-alter materialized-view  mv_products_latest on table cdc_changes { cdc_changes
+    | where table_name == "products"
+    | summarize arg_max(seq, *) by pk }
+.alter table cdc_changes policy update "[{\"IsEnabled\":true,\"Source\":\"cdc_raw\",\"Query\":\"fn_cdc_normalize(cdc_raw)\",\"IsTransactional\":false,\"PropagateIngestionProperties\":false,\"ManagedIdentity\":null}]"

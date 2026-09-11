@@ -1,0 +1,177 @@
+table dbo_SportsDifficulty
+	lineageTag: 02c040e2-768c-4588-b61a-9a260ceb997e
+	sourceLineageTag: [dbo].[dbo_SportsDifficulty]
+
+	column SportID
+		dataType: int64
+		formatString: 0
+		sourceProviderType: int
+		lineageTag: 36535c4e-0f32-4c0b-a6ab-048bd20e0aaf
+		sourceLineageTag: SportID
+		summarizeBy: count
+		sourceColumn: SportID
+
+		annotation SummarizationSetBy = Automatic
+
+	column SportName
+		dataType: string
+		sourceProviderType: varchar(8000)
+		lineageTag: 7fdc9bae-138c-4926-8dfb-e49e46def76b
+		sourceLineageTag: SportName
+		summarizeBy: none
+		sourceColumn: SportName
+
+		annotation SummarizationSetBy = Automatic
+
+	column Agility
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: ff0ebd24-b77d-499f-bb41-99adbba8cd1d
+		sourceLineageTag: Agility
+		summarizeBy: sum
+		sourceColumn: Agility
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column AnalyticAptitude
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 70c6d175-8655-45bc-96b3-1820401aadf6
+		sourceLineageTag: AnalyticAptitude
+		summarizeBy: sum
+		sourceColumn: AnalyticAptitude
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Durability
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 7347b309-6fa5-456d-91f3-5f411c211a91
+		sourceLineageTag: Durability
+		summarizeBy: sum
+		sourceColumn: Durability
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Endurance
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 69bbad42-cd65-4210-aa9c-fb1e9ec311ed
+		sourceLineageTag: Endurance
+		summarizeBy: sum
+		sourceColumn: Endurance
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Flexibility
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: f5a476a6-b53f-4f74-89cd-acd9d8626dba
+		sourceLineageTag: Flexibility
+		summarizeBy: sum
+		sourceColumn: Flexibility
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column HandEyeCoordination
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 9d920fb0-c5b2-4426-933c-d5f6d59fdeab
+		sourceLineageTag: HandEyeCoordination
+		summarizeBy: sum
+		sourceColumn: HandEyeCoordination
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Nerve
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 3cce8604-f485-45da-8463-7df65882dfd0
+		sourceLineageTag: Nerve
+		summarizeBy: sum
+		sourceColumn: Nerve
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Power
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 01b78c1f-7bf7-412f-887d-d00140d94b7c
+		sourceLineageTag: Power
+		summarizeBy: sum
+		sourceColumn: Power
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Speed
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: de2fafaf-77ba-4f72-a0ba-4a54893d24ab
+		sourceLineageTag: Speed
+		summarizeBy: sum
+		sourceColumn: Speed
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column Strength
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 5b08a987-2749-4ffa-a5af-efdf87344720
+		sourceLineageTag: Strength
+		summarizeBy: sum
+		sourceColumn: Strength
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	column OverallDifficulty
+		dataType: decimal
+		formatString: \$#,0.###############;(\$#,0.###############);\$#,0.###############
+		sourceProviderType: decimal(5, 2)
+		lineageTag: 712cf483-b8a9-4ecf-82d8-0a8435a8a4e9
+		sourceLineageTag: OverallDifficulty
+		summarizeBy: sum
+		sourceColumn: OverallDifficulty
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"currencyCulture":"en-US"}
+
+	partition dbo_SportsDifficulty = entity
+		mode: directLake
+		source
+			entityName: dbo_SportsDifficulty
+			schemaName: dbo
+			expressionSource: DatabaseQuery
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Eventstream",
+    "displayName": "mysqlcdc11"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "8a485638-20ff-8acd-48af-5d6dab69b966"
+  }
+}
